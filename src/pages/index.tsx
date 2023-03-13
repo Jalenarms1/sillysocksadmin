@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Create T3 App</title>
+        <title>Silly Socks and More Admin</title>
         <meta key={1} charSet="UTF-8"/>
         <meta key={2} httpEquiv="X-UA-Compatible" content="IE=edge"/>
         <meta key={3} name="viewport" content="width=device-width, initial-scale=1.0"/>
