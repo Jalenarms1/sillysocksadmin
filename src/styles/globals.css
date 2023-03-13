@@ -8,3 +8,11 @@
 
 
 }
+
+tbody tr:nth-child(even) {
+    background-color: #57768b;
+  }
+  
+  tbody tr:nth-child(odd) {
+    background-color: #29425c;
+  }

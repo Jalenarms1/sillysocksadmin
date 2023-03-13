@@ -1,12 +1,16 @@
 import Image from 'next/image';
-import React, {useRef} from 'react'
+import React, {ChangeEvent, useRef, useState} from 'react'
 import useDataUrl from '../../hooks/useDataUrl';
+import { trpc } from '../../utils/trpc';
 
-export default function Product() {
-
+export default function Products() {
+    const defaultState = {name: '', category: '', description: '', quantity: '', price: ''}
+    const [err, setErr] = useState<boolean>(false)
     const imageRef = useRef<HTMLInputElement>(null)
     const imageInputRef = useRef<HTMLInputElement>(null)
-    const [productImage, setProductImage] = useDataUrl();
+    const [productImage, setProductImage, resetImage] = useDataUrl();
+    const [state, setState] = useState(defaultState)
+    const submit = trpc.product.addProduct.useMutation();
     
 
     const handleButtonClick = () => {
@@ -18,17 +22,47 @@ export default function Product() {
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setProductImage(e)
     }
+
+    const submitNewProduct = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const prodObj = {
+            ...state,
+            quantity: parseInt(state.quantity),
+            price: parseFloat(state.price),
+            image: productImage as string
+        }
+        
+        submit.mutate(prodObj)
+        setState(defaultState)
+        resetImage()
+        
+    }
+
+    const updateState = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const {name, value} = e.target
+        setState((prev: any) => {
+            return {
+                ...prev,
+                [name]: value
+            }
+        })
+    }
+
   return (
     <>
         <h1 className="text-2xl px-2 py-4 text-center w-full text-white">
             Add New Product
         </h1>
-        <form className=" p-6">
+                
+        <form className=" p-6" onSubmit={submitNewProduct}>
             <div className="mb-4">
                 <label className="block text-zinc-200 font-bold mb-2" htmlFor="name">
                 Name
                 </label>
                 <input
+                onChange={updateState}
+                value={state.name}
+                name="name"
                 required
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-900 leading-tight focus:outline-none focus:shadow-outline"
                 id="name"
@@ -37,22 +71,54 @@ export default function Product() {
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-zinc-200 font-bold mb-2" htmlFor="category">
-                Category
-                </label>
-                <input
-                required
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-900 leading-tight focus:outline-none focus:shadow-outline"
-                id="category"
-                type="text"
-                placeholder="Enter product category"
-                />
+                <label className="block text-zinc-200 font-bold mb-2">Category</label>
+                <div className="flex items-center mb-2">
+                    <label className="mr-4 text-white">
+                    <input
+                    onChange={updateState}
+                    
+                        required
+                        type="radio"
+                        name="category"
+                        value="Socks"
+                        className="mr-2"
+                    />
+                    Socks
+                    </label>
+                    <label className="mr-4 text-white">
+                    <input
+                    onChange={updateState}
+                    
+                        required
+                        type="radio"
+                        name="category"
+                        value="Shirts"
+                        className="mr-2"
+                    />
+                    Shirts
+                    </label>
+                    <label className='text-white'>
+                    <input
+                    onChange={updateState}
+                    
+                        required
+                        type="radio"
+                        name="category"
+                        value="Accessories"
+                        className="mr-2 " 
+                    />
+                    Accessories
+                    </label>
+                </div>
             </div>
             <div className="mb-4">
                 <label className="block text-zinc-200 font-bold mb-2" htmlFor="description">
                 Description
                 </label>
                 <textarea
+                name='description'
+                onChange={updateState}
+                value={state.description}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-900 leading-tight focus:outline-none focus:shadow-outline"
                 id="description"
                 placeholder="Enter product description"
@@ -71,6 +137,7 @@ export default function Product() {
                 >
                     Choose an image
                 </label>
+                {err && <p>Please choose an image</p>}
                 <input
                  onChange={onFileChange} className='hidden w-fit' accept="image/*" type="file" name="image" id="image" ref={imageRef}/>
                 <div className="my-4 flex justify-center" id="image-preview">
@@ -84,6 +151,9 @@ export default function Product() {
                     Quantity
                     </label>
                     <input
+                    name='quantity'
+                    onChange={updateState}
+                    value={state.quantity}
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-900 leading-tight focus:outline-none focus:shadow-outline"
                     id="quantity"
@@ -96,6 +166,9 @@ export default function Product() {
                     Price
                     </label>
                     <input
+                    name='price'
+                    onChange={updateState}
+                    value={state.price}
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-900 leading-tight focus:outline-none focus:shadow-outline"
                     id="price"

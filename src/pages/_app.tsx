@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <main className="min-h-screen items-center bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] overflow-y-hidden overflow-x-hidden pb-10">
+      <main className="min-h-screen items-center bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] overflow-y-hidden overflow-x-hidden pb-48">
         <Navbar />
         <Component {...pageProps} />
       </main>

@@ -13,5 +13,8 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    domains: ['via.placeholder.com', 'res.cloudinary.com']
+  }
 };
 export default config;

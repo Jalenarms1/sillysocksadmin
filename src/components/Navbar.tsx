@@ -1,10 +1,11 @@
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import {CgCloseR} from 'react-icons/cg/index'
 
 export default function Navbar() {
-
+    const {data:session} = useSession()
     const [isNavOpen, setIsNavOpen] = useState(false);
     const navbarRef = useRef(null);
   function toggleNav() {
@@ -67,7 +68,7 @@ export default function Navbar() {
 //         </div>
 //     </div>
 // </nav>
-    <nav className="flex items-center justify-between flex-wrap bg-zinc-300 px-4 py-2 shadow-md shadow-red-900 relative">
+    <nav className="flex z-50 items-center justify-between flex-wrap bg-zinc-300 px-4 py-2 shadow-sm shadow-red-900 relative">
         <div className="flex items-center flex-shrink-0 text-white mr-6">
             <Image width={200} height={200} className=" w-24" src="/images/sockslogo.png" alt="Logo"/>
         </div>
@@ -83,19 +84,21 @@ export default function Navbar() {
         id="nav-content"
       >
         <CgCloseR className='text-2xl active:bg-gray-600 rounded'/>
-        <div className="text-sm lg:flex-grow ">
-          <Link href="/" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white mr-4">
+        {session && session?.user?.email === 'sillysocksandmore@gmail.com' && <div className="text-sm lg:flex-grow ">
+          <Link href="/admin" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white mr-4">
               Home
           </Link>
-          <Link href="/about" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white mr-4">
-              About
+          <Link href="/orders" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white mr-4">
+              Orders
             
           </Link>
-          <Link href="/contact" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white">
-              Contact
+          <Link href="/inventory" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white">
+              Inventory
             
           </Link>
-        </div>
+        </div>}
+        <a className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white" href="https://www.sillysocksandmore.com" target={'_blank'} rel="noreferrer">Visit Site</a>
+        <button onClick={() => signOut({ callbackUrl: "/" })} className='bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white text-left mt-4 text-gray-200'>Logout</button>
       </div>
     </nav>
   )
