@@ -51,7 +51,12 @@ export default function Inventory() {
         </div>}
 
         <div id="card-wrap " className='w-full flex flex-col justify-center items-center mt-10'>
-            
+            {data && data?.length < 1 ?<div>
+                <p className="text-lg text-zinc-100">No products yet! Click <Link href={`/product`} className="underline text-blue-400">here</Link></p>
+            </div>
+            :
+            null
+            }
             {data?.map((item: any, index: number) => (
                 <div key={index} className="bg-white rounded-lg relative shadow-md overflow-hidden w-3/5 mb-5">
                     <input onChange={handleDelCheck} id={item.id} type="checkbox" className="absolute top-0 left-0 m-4 z-10 w-6 h-6" />
