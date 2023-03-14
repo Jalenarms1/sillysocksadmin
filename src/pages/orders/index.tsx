@@ -48,7 +48,7 @@ export default function Orders() {
             <div id="completed-orders-wrap" className='mt-7'>
                 <p className="text-3xl text-white text-center ">Completed Orders</p>
             </div>
-            <div id="search" className='flex flex-col items-center gap-5 justify-center relative'>
+            <div id="search" className='flex flex-col items-center gap-5 justify-center relative mt-3'>
                 <label htmlFor="order-search" className='text-sm w-full text-zinc-300 text-center'>Search for Order by id, customer email or shipping address</label>
                 <input type="text" className="block w-full  border-gray-300 shadow-md shadow-zinc-800 py-3 px-4 placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10" placeholder="Search completed orders..."/>
                 <button type="submit" className="absolute top-5 right-0 h-full px-4 py-2 text-gray-700 z-50">
@@ -64,7 +64,7 @@ export default function Orders() {
                 </thead>
                 <tbody>
                     {data && data?.filter((item: any) => item.shipped).map((item: any, index: number) => (
-                        <tr key={index}>
+                        <tr onClick={() => viewOrder(item.id)} key={index}>
                             <td className="border border-zinc-300 w-[35%] text-left px-3 py-4">{item.id}</td>
                             <td className="border border-zinc-300 text-left px-3 py-4">{item.dateShipped.toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: '2-digit'})}</td>
                             <td className="border border-zinc-300 text-left px-3 py-4">${item.total.toFixed(2)}</td>

@@ -56,6 +56,28 @@ export const productRouter = router({
     .input(z.object({ids: z.string().array()}))
     .mutation(async ({ctx: {prisma}, input}) => {
       try {
+        const orderIds = await prisma.orderItem.findMany({
+          where: {
+            productId: {
+              in: input.ids
+            }
+          },
+          select: {
+            orderId: true
+          }
+        })
+
+        
+
+        const deleteOrders = await prisma.order.deleteMany({
+          where: {
+            id: {
+              in: orderIds.map((item:any) => item.orderId)
+            },
+            shipped: false
+          }
+        })
+
         const deletedProds = await prisma.product.deleteMany({
           where: {
             id: {
@@ -63,6 +85,7 @@ export const productRouter = router({
             }
           }
         });
+
 
         return deletedProds
       } catch (error) {

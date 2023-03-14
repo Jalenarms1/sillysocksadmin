@@ -88,10 +88,10 @@ export default function Navbar() {
           <Link href="/admin" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white mr-4">
               Home
           </Link>
-          {/* <Link href="/orders" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white mr-4">
+          <Link href="/orders" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white mr-4">
               Orders
             
-          </Link> */}
+          </Link>
           <Link href="/inventory" className="block mt-4 lg:inline-block lg:mt-0 text-gray-200 shadow-md shadow-zinc-500 bg-gradient-to-b from-[#3d0c0c] to-[#3f1a1a] px-3 w-[90%] p-1 rounded-full hover:bg-red-800 active:bg-[#3d0c0c] hover:text-white">
               Inventory
             

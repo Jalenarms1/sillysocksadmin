@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
+import { transporter } from "../../mailer";
 
 
 
@@ -39,20 +40,24 @@ export const orderRouter = router({
     markAsShipped: protectedProcedure
         .input(z.object({id: z.string(), emailAddress: z.string(), shippingAddress: z.string()}))
         .mutation(async ({ctx: {prisma}, input: {id, emailAddress, shippingAddress}}) => {
-            const currentTime: any = await prisma.$queryRaw`SELECT NOW() as currentTime`;
-
-            console.log(currentTime?.currentTime);
-            
-
             const shippedOrder = await prisma.order.update({
                 where: {
                     id
                 },
                 data: {
                     shipped: true,
-                    dateShipped: new Date(currentTime?.currentTime)
+                    dateShipped: new Date()
                 }
             })
+
+            const mailOptions = {
+                from: 'dev.test.jalen@gmail.com',
+                to: emailAddress,
+                subject: "Order has been shipped!",
+                text: `Order # ${id} has been shipped to ${shippingAddress}. \n Thank you again for your purchase! \n You should expect to recieve your order within 3-5 business days. This does not take into account any external factors that could delay the shipping time. \n If you have any concerns, please do not hesitate to reach out to support@sillysocksandmore.com`
+            };
+          
+            await transporter.sendMail(mailOptions);
 
             return shippedOrder
         })
