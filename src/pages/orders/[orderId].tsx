@@ -72,15 +72,8 @@ export default function Order() {
         {data && !data?.shipped && <button onClick={toggleModal} className="px-4 py-2 w-[55%] shadow-sm shadow-zinc-300 bg-green-600 text-white font-bold rounded hover:bg-green-700">Mark as Shipped</button>}
             <button onClick={toggleCancelModal} className="px-4 py-2 w-[55%] shadow-sm shadow-zinc-300 bg-red-600 text-white font-bold rounded hover:bg-red-700">Cancel Order</button>
         </div>
-        
-        {/* {data?.shipped === false ? <div className="flex justify-center items-center flex-col gap-5">
-            <button onClick={toggleModal} className="px-4 py-2 w-[55%] shadow-sm shadow-zinc-300 bg-green-600 text-white font-bold rounded hover:bg-green-700">Mark as Shipped</button>
-            <button onClick={toggleCancelModal} className="px-4 py-2 w-[55%] shadow-sm shadow-zinc-300 bg-red-600 text-white font-bold rounded hover:bg-red-700">Cancel Order</button>
-        </div>
-        :
-        } */}
         {modalOpen && <ConfirmOrderModal id={data?.id as string} emailAddress={data?.emailAddress as string} shippingAddress={data?.shippingAddress as string} setModalOpen={setModalOpen} />}
-        {cancelModalOpen && <CancelOrderModal setCancelModalOpen={setCancelModalOpen} />}
+        {cancelModalOpen && <CancelOrderModal id={data?.id as string} emailAddress={data?.emailAddress as string} shippingAddress={data?.shippingAddress as string} setCancelModalOpen={setCancelModalOpen} />}
     </div>
 
   )
